@@ -10,6 +10,12 @@ const RegisterScreen = (navigation) => {
   const [password, setpassword] = useState("");
   const [imageUrl, setimageUrl] = useState("");
 
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerBackTitle: "HAHA Login",
+    });
+  }, [navigation]);
+
   const register = () => {};
 
   return (
