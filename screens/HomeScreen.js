@@ -1,11 +1,19 @@
-import React from "react";
-import { View, Text } from "react-native";
+import React, { useLayoutEffect } from "react";
+import { View, Text, SafeAreaView, ScrollView } from "react-native";
+import CustonListItem from "../components/CustonListItem";
 
 const HomeScreen = ({ navigation }) => {
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: "Demo",
+    });
+  }, []);
   return (
-    <View>
-      <Text></Text>
-    </View>
+    <SafeAreaView>
+      <ScrollView>
+        <CustonListItem />
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
