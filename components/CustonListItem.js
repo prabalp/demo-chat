@@ -1,7 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { Avatar } from "react-native-elements/dist/avatar/Avatar";
-import { ListItem } from "react-native-elements/dist/list/ListItem";
+import { Avatar, ListItem } from "react-native-elements";
 
 const CustonListItem = ({ id, chatName, enterChat }) => {
   return (
@@ -9,7 +8,7 @@ const CustonListItem = ({ id, chatName, enterChat }) => {
       <Avatar
         rounded
         source={{
-          uri: "",
+          uri: "https://upload.wikimedia.org/wikipedia/commons/f/f9/Phoenicopterus_ruber_in_S%C3%A3o_Paulo_Zoo.jpg",
         }}
       />
       <ListItem.Content>
