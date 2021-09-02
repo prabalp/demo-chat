@@ -31,7 +31,7 @@ const HomeScreen = ({ navigation }) => {
               rounded
               source={{
                 uri:
-                  "https://avatars.dicebear.com/api/:human/:haha.svg" || //https://avatars.dicebear.com/api/:sprites/:seed.svg  //why not working?
+                  "https://avatars.dicebear.com/api/human/john.svg?mood[]=happy&mood[]=sad" || //https://avatars.dicebear.com/api/:sprites/:seed.svg  //why not working?
                   auth?.currentUser?.photoURL,
               }}
             />
