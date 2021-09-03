@@ -4,7 +4,7 @@ import { Avatar, ListItem } from "react-native-elements";
 
 const CustonListItem = ({ id, chatName, enterChat }) => {
   return (
-    <ListItem>
+    <ListItem key={id} bottomDivider>
       <Avatar
         rounded
         source={{
@@ -13,7 +13,7 @@ const CustonListItem = ({ id, chatName, enterChat }) => {
       />
       <ListItem.Content>
         <ListItem.Title style={{ fontWeight: "800" }}>
-          Youtube Chat
+          {chatName}
         </ListItem.Title>
         <ListItem.Subtitle numberOfLines={1} ellipsizeMode="tail">
           This is a test Subtitle

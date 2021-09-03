@@ -1,10 +1,11 @@
-import React, { useLayoutEffect } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import {
   View,
   Text,
   SafeAreaView,
   ScrollView,
   TouchableOpacity,
+  StyleSheet,
 } from "react-native";
 import { Avatar } from "react-native-elements/dist/avatar/Avatar";
 import CustonListItem from "../components/CustonListItem";
@@ -12,11 +13,25 @@ import { auth, db } from "../firebase";
 import { AntDesign, SimpleLineIcons } from "@expo/vector-icons";
 
 const HomeScreen = ({ navigation }) => {
+  const [chats, setChats] = useState([]);
   const signOutUser = () => {
-    // auth.signOut().then(() => {
-    //   navigation.replace("Login");
-    // });
+    auth.signOut().then(() => {
+      navigation.replace("Login");
+    });
   };
+
+  useEffect(() => {
+    const unsubscribe = db.collection("chats").onSnapshot((snapshot) => {
+      setChats(
+        snapshot.docs.map((doc) => ({
+          id: doc.id,
+          data: doc.data(),
+        }))
+      );
+    });
+
+    return unsubscribe;
+  }, []);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -64,12 +79,20 @@ const HomeScreen = ({ navigation }) => {
     });
   }, [navigation]);
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <ScrollView>
-        <CustonListItem />
+        {chats.map(({ id, data: { chatName } }) => {
+          <CustonListItem key={id} id={id} chatName={chatName} />;
+        })}
       </ScrollView>
     </SafeAreaView>
   );
 };
 
 export default HomeScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    height: "100%",
+  },
+});
