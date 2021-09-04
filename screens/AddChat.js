@@ -22,7 +22,8 @@ const AddChat = ({ navigation }) => {
         chatName: input,
       })
       .then(() => {
-        navigation.goBack();
+        console.log("in");
+        navigation.goBack("Home");
       })
       .catch((error) => alert(error));
   };
