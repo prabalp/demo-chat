@@ -11,7 +11,6 @@ const CustonListItem = ({ id, chatName, enterChat }) => {
       key={id}
       bottomDivider
     >
-      {console.log("hahahaha")}
       <Avatar
         rounded
         source={{
