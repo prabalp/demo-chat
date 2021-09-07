@@ -33,6 +33,8 @@ const HomeScreen = ({ navigation }) => {
     return unsubscribe;
   }, []);
 
+  console.log(chats);
+
   useLayoutEffect(() => {
     navigation.setOptions({
       title: "Demo",

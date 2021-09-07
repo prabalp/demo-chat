@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useLayoutEffect, useState } from "react";
+import firebase from "firebase";
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -7,9 +8,9 @@ import {
   SafeAreaView,
   ScrollView,
   StyleSheet,
-  TextInput,
   TouchableOpacity,
   View,
+  TextInput,
 } from "react-native";
 import { auth, db } from "../firebase";
 
@@ -22,9 +23,9 @@ const ChatScreen = ({ navigation, route }) => {
   const [messages, setmessages] = useState([]);
 
   const sendMessage = () => {
-    Keyboard.dismiss();
+    // Keyboard.dismiss();
 
-    db.collection("chats").doc(route.parms.id).collection("messages").add({
+    db.collection("chats").doc(route.params.id).collection("messages").add({
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       message: input,
       displayName: auth.currentUser.displayName,
@@ -59,7 +60,7 @@ const ChatScreen = ({ navigation, route }) => {
         style={styles.container}
         keyboardVerticalOffset={90}
       >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <TouchableWithoutFeedback>
           <ScrollView
             style={{ display: "flex", flexDirection: "column", flex: 1 }}
           >
