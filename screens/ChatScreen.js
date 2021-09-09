@@ -13,6 +13,7 @@ import {
   TextInput,
 } from "react-native";
 import { auth, db } from "../firebase";
+import { AntDesign, SimpleLineIcons } from "@expo/vector-icons";
 
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
@@ -23,7 +24,7 @@ const ChatScreen = ({ navigation, route }) => {
   const [messages, setmessages] = useState([]);
 
   const sendMessage = () => {
-    // Keyboard.dismiss();
+    Keyboard.dismiss();
 
     db.collection("chats").doc(route.params.id).collection("messages").add({
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
@@ -34,6 +35,40 @@ const ChatScreen = ({ navigation, route }) => {
     });
     setinput("");
   };
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: "Chat",
+      headerBackTitleVisible: false,
+      headerTitleAlign: "left",
+      headerTitle: () => {
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+          <Avatar rounded />
+          <Text>{route.params.chatName}</Text>
+        </View>;
+      },
+      headerLeft: () => {
+        <TouchableOpacity onPress={navigation.goBacku}>
+          <AntDesign name="arrowleft" size={24} color="white" />
+        </TouchableOpacity>;
+      },
+      headerRight: () => {
+        <View>
+          <TouchableOpacity>
+            <FontAwesome name="video-camera" size={24} color="white" />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Ionicons name="call" size={24} color="white" />
+          </TouchableOpacity>
+        </View>;
+      },
+    });
+  }, [navigation]);
 
   useLayoutEffect(() => {
     const unsubscribe = db
@@ -60,33 +95,50 @@ const ChatScreen = ({ navigation, route }) => {
         style={styles.container}
         keyboardVerticalOffset={90}
       >
-        <TouchableWithoutFeedback>
-          <ScrollView
-            style={{ display: "flex", flexDirection: "column", flex: 1 }}
-          >
-            {messages.map(({ id, data }) => {
-              data.email === auth.currentUser.email ? (
-                <View>
-                  <Avatar />
-                  <Text style={styles.recieverText}>{data.message}</Text>
-                </View>
-              ) : (
-                <View></View>
-              );
-            })}
-          </ScrollView>
-          <View style={styles.footer}>
-            <TextInput
-              value={input}
-              onChangeText={(text) => setinput(text)}
-              placeholder="message"
-              style={styles.textInput}
-              onSubmitEditing={sendMessage}
-            />
-            <TouchableOpacity activeOpacity={0.5} onPress={sendMessage}>
-              <Ionicons name="send" size={24}></Ionicons>
-            </TouchableOpacity>
-          </View>
+        <TouchableWithoutFeedback style={{ display: "flex" }}>
+          <>
+            <ScrollView
+            // style={{ display: "flex", flexDirection: "column", flex: 1 }}
+            >
+              {messages.map(({ id, data }) => {
+                data.email === auth.currentUser.email ? (
+                  <View>
+                    <Avatar
+                      position="absolute"
+                      rounded
+                      containerStyle={{
+                        position: "absolute",
+                        bottom: 15,
+                        right: -5,
+                      }}
+                      bottom={-15}
+                      right={-5}
+                      size={30}
+                      source={{
+                        uri: data.photoURL,
+                      }}
+                    />
+                    <Text style={styles.recieverText}>{data.message}</Text>
+                  </View>
+                ) : (
+                  <View>haha</View>
+                );
+              })}
+            </ScrollView>
+
+            <View style={styles.footer}>
+              <TextInput
+                value={input}
+                onChangeText={(text) => setinput(text)}
+                placeholder="message"
+                style={styles.textInput}
+                onSubmitEditing={sendMessage}
+              />
+              <TouchableOpacity activeOpacity={0.5} onPress={sendMessage}>
+                <Ionicons name="send" size={24}></Ionicons>
+              </TouchableOpacity>
+            </View>
+          </>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
 
